@@ -134,17 +134,23 @@ export default function QRCodeGenerator() {
         {/* QR Code Display */}
         <div
           ref={qrRef}
-          className="flex justify-center p-8 rounded-xl"
-          style={{ backgroundColor: bgColor }}
+          className="flex justify-center items-center rounded-xl transition-all duration-300 ease-out overflow-hidden"
+          style={{
+            backgroundColor: bgColor,
+            padding: "24px",
+            minHeight: size + 48,
+          }}
         >
-          <QRCodeCanvas
-            value={text || " "}
-            size={size}
-            fgColor={fgColor}
-            bgColor={bgColor}
-            level="H"
-            includeMargin={true}
-          />
+          <div className="transition-transform duration-300 ease-out">
+            <QRCodeCanvas
+              value={text || " "}
+              size={size}
+              fgColor={fgColor}
+              bgColor={bgColor}
+              level="H"
+              includeMargin={true}
+            />
+          </div>
         </div>
 
         {/* Customization Options */}
@@ -157,10 +163,14 @@ export default function QRCodeGenerator() {
             <input
               type="range"
               min="128"
-              max="512"
+              max="400"
+              step="1"
               value={size}
               onChange={(e) => setSize(Number(e.target.value))}
-              className="w-full h-2 bg-zinc-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+              className="w-full h-2 rounded-full appearance-none cursor-pointer slider-smooth"
+              style={{
+                "--value": `${((size - 128) / (400 - 128)) * 100}%`,
+              } as React.CSSProperties}
             />
           </div>
 
